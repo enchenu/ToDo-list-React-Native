@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "onebitcode-youtube",
+    "slug": "onebitcode-youtube",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
