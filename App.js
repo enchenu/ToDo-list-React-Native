@@ -1,12 +1,46 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import Empty from "./src/components/Empty";
+import Header from "./src/components/Header";
+import Input from "./src/components/Input";
+import Task from "./src/components/Task";
 
 export default function App() {
+  const [data, setData] = useState([]);
+
+  const submitHandler = (value) => {
+    setData((prevTask) => {
+      return [
+        {
+          value: value,
+          key: Math.random().toString(),
+        },
+        ...prevTask,
+      ];
+    });
+  };
+
+  const deleteItem = (key) => {
+    setData((prevTask) => {
+      return prevTask.filter((Task) => Task.key != key);
+    });
+  };
+
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.key}
+        ListHeaderComponent={() => <Header />}
+        ListEmptyComponent={() => <Empty />}
+        renderItem={({item}) => <Task item={item} deleteItem={deleteItem}/>}
+      />
+      <View>
+        <Input submitHandler={submitHandler}/>
+      </View>
+      <StatusBar style="light" />
     </View>
   );
 }
@@ -14,8 +48,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#121212',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingVertical: 60,
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
